@@ -5,7 +5,17 @@ require 'haml'
 enable :inline_templates
 
 def quine
-  IO.read($0)
+  q = <<-FOO
+    require 'sinatra'
+    require 'json'
+    require 'haml'
+
+    enable :inline_templates
+
+    def quine
+    end
+  FOO
+  q
 end
 
 get '/code' do
@@ -22,22 +32,35 @@ __END__
   = yield
 
 @@ index
+%script{ :src => '//ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js', :type => 'text/javascript', :charset => 'utf-8' }
+%script{ :src => 'prism.js', :type => 'text/javascript', :charset => 'utf-8' }
+%link{:rel => :stylesheet, :type => :"text/css", :href => "prism.css"}
 %h1 Introduction
 %p A quine is a non-empty computer program which takes no input and produces a copy of its own source code as its only output. The standard terms for these programs in the computability theory and computer science literature are "self-replicating programs", "self-reproducing programs", and "self-copying programs".
-%div.main-section
-%script{ :src => '//ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js', :type => 'text/javascript', :charset => 'utf-8' }
+
+%pre.line-numbers
+  %code.language-ruby
+    %div.main-section
+
 :javascript
     $(document).ready( function() {
       var intervalID = window.setInterval(count, 1000);
-      var i = 1;
+      var i = 3;
       function count() {
-        if(i > 3) {
+        if(i === 0) {
           clearInterval(intervalID);
-          //call ajax and get quine and show on the div
-          //$('.main-section').html(quine);
+          $.ajax({
+            url: '/code',
+            data: {
+              format: 'json'
+            },
+            success: function(data) {
+                 $('.main-section').replaceWith(JSON.parse(data).code);
+            }
+          })
         }
         else {
-          $('.main-section').html(i++);
+          $('.main-section').html(i--);
         }
       }
 
