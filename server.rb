@@ -51,7 +51,7 @@ def quine
       "    c << code[i] + n",
       "  end",
       "  Range.new(0, code.size, true).each do |i|",
-      "    d = i == 16 || i == 18 || i == 19 || i == 45 || i == 46 || i == 48 || i == 51 || i == 62 || i == 64 || i == 67 || i == 68 || i == 73 ? s : q",
+      "    d = i == 16 || i == 18 || i == 19 || i == 45 || i == 46 || i == 48 || i == 52 || i == 62 || i == 64 || i == 67 || i == 68 || i == 73 ? s : q",
       "    c << code[21] + d + code[i] + d + l + n",
       "  end",
       "  Range.new(23, code.size, true).each do |i|",
@@ -105,7 +105,7 @@ def quine
     c << code[i] + n
   end
   Range.new(0, code.size, true).each do |i|
-    d = i == 16 || i == 18 || i == 19  || i == 45 || i == 46 || i == 48 || i == 51 || i == 62 || i == 64 || i == 67 || i == 68 || i == 73 ? s : q
+    d = i == 16 || i == 18 || i == 19  || i == 45 || i == 46 || i == 48 || i == 52 || i == 62 || i == 64 || i == 67 || i == 68 || i == 73 ? s : q
     c << code[22] + d + code[i] + d + l + n
   end
   Range.new(23, code.size, true).each do |i|
